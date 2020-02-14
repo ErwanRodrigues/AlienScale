@@ -8,7 +8,7 @@
 *.sln.docstates
 
 #Android manifest
-AndroidManifest.xml
+C:\Users\GilGaWech\source\repos\AlienScale\AlienScale\AlienScale.Android\Properties\AndroidManifest.xml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
