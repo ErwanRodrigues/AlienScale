@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="AlienScale.Views.FishBodyView.StatFishBodyView"
+             xmlns:converters="clr-namespace:AlienScale.ViewModels.Converters" 
+             xmlns:custom="clr-namespace:AlienScale.Views.CustomControls"
+             HorizontalOptions="FillAndExpand"
+             VerticalOptions="FillAndExpand"
+             IsVisible="{Binding StatFishIsVisible}"
+             BackgroundColor="Transparent"
+             Margin="20,0,20,0"
+             Padding="0">
+    <StackLayout.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LocationOptionStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Times New Roman" />
+                <Setter Property="TextColor" Value="#FBFBEF" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
+            <converters:InverseBooleanConverter x:Key="boolInverter"/>
+        </ResourceDictionary>
+    </StackLayout.Resources>
+    <Label Text="Stats not implemented yet"/>
+</StackLayout>

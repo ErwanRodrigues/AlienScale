@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlienScale.Views.CustomViews.HomeView"
+             xmlns:customViews="clr-namespace:AlienScale.Views.CustomViews"
+            xmlns:customControls="clr-namespace:AlienScale.Views.CustomControls"
+            xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+            xmlns:markupExtensions="clr-namespace:AlienScale.MarkupExtensions;assembly=AlienScale"
+            xmlns:views="clr-namespace:AlienScale.Views"
+             x:Name="HomeContentView">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DisplayDataValueStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Times New Roman" />
+                <Setter Property="TextColor" Value="#1B3B5F" />
+                <Setter Property="FontSize" Value="10" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid HorizontalOptions="FillAndExpand" 
+                  BackgroundColor="Transparent" 
+                  VerticalOptions="FillAndExpand" 
+                  RowSpacing="0" 
+                  Padding="0,0,0,0"
+                  AbsoluteLayout.LayoutFlags="All"
+                  AbsoluteLayout.LayoutBounds="1.0,1.0,1.0,1.0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <customViews:RibbonView x:Name="ribbonViews" 
+                                      Padding="20,0,20,0" 
+                                      Grid.Row ="1" 
+                                      HorizontalOptions="FillAndExpand" 
+                                      BackgroundColor="Transparent" BarColor="White" 
+                                      TextColor="White" 
+                                      Style="{StaticResource DisplayDataValueStyle}" 
+                                      ItemsSource="{Binding RibbonOptions}" 
+                                      SelectedItemIndex="{Binding SelectedTab, Mode=TwoWay}" 
+                                      ItemSelected="{Binding OptionSelectionChangedCommand}"
+                                      AbsoluteLayout.LayoutFlags="All"
+                                      AbsoluteLayout.LayoutBounds="0,1.0,1.0,1.0"/>
+
+            <AbsoluteLayout Grid.Row = "2"
+                            BackgroundColor="Transparent">
+                <AbsoluteLayout BindingContext="{Binding FishViewModel}"
+                                x:Name="FishView"
+                                IsVisible="{Binding Path=BindingContext.FishIsVisible, Source={x:Reference HomeContentView}}"
+                                Grid.Row ="2" 
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                AbsoluteLayout.LayoutFlags="All"
+                                AbsoluteLayout.LayoutBounds="0,0,1,1">
+                    <customViews:BodyView ItemsSource="{Binding FishViewOptions}"
+                                          x:Name="FishBodyView"
+                                          HorizontalOptions="FillAndExpand"
+                                          VerticalOptions="FillAndExpand"
+                                          AbsoluteLayout.LayoutFlags="All"
+                                          AbsoluteLayout.LayoutBounds="0,0,1.0,0.89"/>
+                    <customViews:RibbonView x:Name="FishRibbonView" 
+                                            Margin="40,0,40,0"
+                                            HorizontalOptions="FillAndExpand"
+                                            VerticalOptions="End"
+                                            BackgroundColor="Transparent" 
+                                            BarColor="White" 
+                                            TextColor="White"
+                                            ItemsSource="{Binding RibbonOptions}" 
+                                            SelectedItemIndex="{Binding SelectedFishTab, Mode=TwoWay}" 
+                                            ItemSelected="{Binding OptionSelectionChangedCommand}"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            AbsoluteLayout.LayoutBounds="0,0.97,1.0,0.1"/>
+                </AbsoluteLayout>
+                <AbsoluteLayout BindingContext="{Binding LocationViewModel}"
+                                x:Name="LocView"
+                                IsVisible="{Binding Path=BindingContext.LocationIsVisible, Source={x:Reference HomeContentView}}"
+                                Grid.Row ="2" 
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                AbsoluteLayout.LayoutFlags="All"
+                                AbsoluteLayout.LayoutBounds="0,0,1,1">
+                    <customViews:BodyView ItemsSource="{Binding LocationViewOptions}"
+                                          x:Name="LocBodyView"
+                                          HorizontalOptions="FillAndExpand"
+                                          VerticalOptions="FillAndExpand"
+                                          AbsoluteLayout.LayoutFlags="All"
+                                          AbsoluteLayout.LayoutBounds="0,0,1.0,0.89"/>
+                    <customViews:RibbonView x:Name="LocsRibbonView" 
+                                            Margin="40,0,40,0"
+                                            HorizontalOptions="FillAndExpand"
+                                            VerticalOptions="End"
+                                            BackgroundColor="Transparent" 
+                                            BarColor="White" 
+                                            TextColor="White"
+                                            ItemsSource="{Binding RibbonOptions}" 
+                                            SelectedItemIndex="{Binding SelectedLocTab, Mode=TwoWay}" 
+                                            ItemSelected="{Binding OptionSelectionChangedCommand}"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            AbsoluteLayout.LayoutBounds="0,0.97,1.0,0.1"/>
+                </AbsoluteLayout>
+                <AbsoluteLayout BindingContext="{Binding SessionViewModel}"
+                                x:Name="SessionView"
+                                IsVisible="{Binding Path=BindingContext.SessionIsVisible, Source={x:Reference HomeContentView}}"
+                                Grid.Row ="2" 
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                AbsoluteLayout.LayoutFlags="All"
+                                AbsoluteLayout.LayoutBounds="0,0,1,1">
+                    <customViews:BodyView ItemsSource="{Binding SessionViewOptions}"
+                                          x:Name="SessionBodyView"
+                                          HorizontalOptions="FillAndExpand"
+                                          VerticalOptions="FillAndExpand"
+                                          AbsoluteLayout.LayoutFlags="All"
+                                          AbsoluteLayout.LayoutBounds="0,0,1.0,0.89"/>
+                    <customViews:RibbonView x:Name="SessionRibbonView"
+                                            Margin="40,0,40,0"
+                                            HorizontalOptions="FillAndExpand"
+                                            VerticalOptions="End"
+                                            BackgroundColor="Transparent" 
+                                            BarColor="White" 
+                                            TextColor="White"
+                                            ItemsSource="{Binding RibbonOptions}" 
+                                            SelectedItemIndex="{Binding SelectedSessionTab, Mode=TwoWay}" 
+                                            ItemSelected="{Binding OptionSelectionChangedCommand}"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            AbsoluteLayout.LayoutBounds="0,0.97,1.0,0.1"/>
+                </AbsoluteLayout>
+                <AbsoluteLayout BindingContext="{Binding MapViewModel}"
+                                IsVisible="{Binding Path=BindingContext.MapIsVisible, Source={x:Reference HomeContentView}}"
+                                x:Name="MapView"
+                                Grid.Row ="2" 
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                AbsoluteLayout.LayoutFlags="All"
+                                AbsoluteLayout.LayoutBounds="0,0,1,1">
+                    <customViews:CustomMap Items="{Binding Path=BindingContext.HomeViewModel.Pins, Source={x:Reference HomeContentView}}" 
+                                 MapSpan="{Binding Path=BindingContext.CurrentMapSpan, Source={x:Reference HomeContentView}}"
+                                 HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="FillAndExpand"
+                                 MapType="Hybrid"
+                                 IsShowingUser="True"
+                                 AbsoluteLayout.LayoutFlags="All"
+                                 AbsoluteLayout.LayoutBounds="0,1.0,1.0,1.0"/>
+                </AbsoluteLayout>
+                <customControls:CustomFloatingAddButton DragDirection="All"
+                                                        DragMode="Touch"
+                                                        AbsoluteLayout.LayoutFlags="All"
+                                                        AbsoluteLayout.LayoutBounds="0.93,0.83,0.1,0.1"
+                                                        IsButtonVisible="{Binding IsAddButtonVisible}"
+                                                        x:Name="FloatingAddButton" />
+            </AbsoluteLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        x:Class="AlienScale.Views.FishBodyView.FishBodyView"
+        xmlns:converters="clr-namespace:AlienScale.ViewModels.Converters" 
+        xmlns:customViews="clr-namespace:AlienScale.Views.CustomViews"
+        xmlns:customControls="clr-namespace:AlienScale.Views.CustomControls"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand"
+        BackgroundColor="Transparent"
+        Margin="0,0,0,0"
+        Padding="0"
+        x:Name="FishView">
+    <AbsoluteLayout>
+        <customViews:BodyView ItemsSource="{Binding FishViewOptions}"
+                              HorizontalOptions="FillAndExpand"
+                              VerticalOptions="FillAndExpand"
+                              AbsoluteLayout.LayoutFlags="All"
+                              AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+        <customControls:CustomImageButton Source="add.png"
+                                          BackgroundColor="Black"
+                                          AbsoluteLayout.LayoutFlags="All"
+                                          AbsoluteLayout.LayoutBounds="0.9,0.9,1,1"/>
+    </AbsoluteLayout>
+    <customViews:RibbonView x:Name="ribbonViews" 
+                        Margin="40,0,40,0"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="End"
+                        BackgroundColor="Transparent" 
+                        BarColor="White" 
+                        TextColor="White"
+                        ItemsSource="{Binding RibbonOptions}" 
+                        SelectedItemIndex="{Binding SelectedFishTab, Mode=TwoWay}" 
+                        ItemSelected="{Binding OptionSelectionChangedCommand}"/>
+</StackLayout>

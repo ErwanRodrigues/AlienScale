@@ -1,0 +1,280 @@
+using AlienScale.ViewModels;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Forms;
+
+namespace AlienScale.Views.CustomViews
+{
+    public class RunningSessionView : ContentView
+    {
+        public RunningSessionViewModel _viewModel{ get; set; }
+
+        private Grid _mainGrid;
+        private Grid _underGrid;
+        private Grid _buttonLayout;
+        private StackLayout _blueBarLayout;
+        private StackLayout _menuLayout;
+        private bool _isOpenMenu = false;
+        private double _originalLeft;
+        private double _originalWidth;
+        
+        #region ItemsSource property  
+        public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IDictionary), typeof(RunningSessionView), null, propertyChanged: OnItemsSourceModified);
+        public IDictionary ItemsSource
+        {
+            get
+            {
+                return (IDictionary)GetValue(ItemsSourceProperty);
+            }
+            set
+            {
+                SetValue(ItemsSourceProperty, value);
+            }
+        }
+        private static void OnItemsSourceModified(object sender, object oldValue, object newValue)
+        {
+            RunningSessionView rs = (RunningSessionView)sender;
+            rs._mainGrid.Children.Clear();
+
+            //building buttons
+            foreach (KeyValuePair<string, string> entry in ((Dictionary<string, string>)newValue))
+            {
+                // do something with entry.Value or entry.Key
+                Label lbl = new Label()
+                {
+                    Style = rs.FontStyle,
+                    Text = entry.Key,
+                };
+            }
+        }
+        #endregion
+        #region StyleProperty
+        public static new readonly BindableProperty StyleProperty = BindableProperty.Create(nameof(Style), typeof(Style), typeof(RunningSessionView), null);
+        public new Style Style
+        {
+            get
+            {
+                return (Style)GetValue(StyleProperty);
+            }
+            set
+            {
+                SetValue(StyleProperty, value);
+            }
+        }
+        #endregion        
+        #region FontStyleProperty
+        public static readonly BindableProperty FontStyleProperty = BindableProperty.Create(nameof(FontStyle), typeof(Style), typeof(RunningSessionView), null);
+        public Style FontStyle
+        {
+            get
+            {
+                return (Style)GetValue(FontStyleProperty);
+            }
+            set
+            {
+                SetValue(FontStyleProperty, value);
+            }
+        }
+        #endregion        
+
+        #region FontFamilyProperty
+        public static readonly BindableProperty FontFamilyProperty = BindableProperty.Create(nameof(FontFamily), typeof(string), typeof(RunningSessionView), null);
+        public string FontFamily
+        {
+            get
+            {
+                return (string)GetValue(FontFamilyProperty);
+            }
+            set
+            {
+                SetValue(FontFamilyProperty, value);
+            }
+        }
+        #endregion
+        public RunningSessionView(RunningSessionViewModel viewModel)
+        {
+
+            this._viewModel = viewModel;
+            this.BindingContext = _viewModel;
+        }
+        public RunningSessionView()
+        {
+            _blueBarLayout = new StackLayout()
+            {
+                TranslationY=60,
+                WidthRequest = 60,
+                HeightRequest = 60, 
+                HorizontalOptions = LayoutOptions.Center,
+                BackgroundColor = Color.DodgerBlue,
+            };
+
+            _buttonLayout = new Grid()
+            {
+                HeightRequest=60,
+                TranslationY=60,
+                HorizontalOptions = LayoutOptions.Center,
+            };
+            //Creating & adding rounded button
+            StackLayout roundedLayout = new StackLayout();
+            roundedLayout.Children.Add(new Label() { Style = Style, Text = StaticResources.FontAwesomeConstant.Circle });
+            _buttonLayout.Children.Add(roundedLayout);
+
+            //creating & adding list
+            StackLayout listLayout = new StackLayout()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                TranslationY = 8,
+            };
+            listLayout.Children.Add(new Label() {TextColor=Color.White,
+                                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                                    VerticalOptions = LayoutOptions.FillAndExpand,
+                                    VerticalTextAlignment = TextAlignment.Center,
+                                    HorizontalTextAlignment = TextAlignment.Center,
+                                    FontSize = 30,
+                                    Text = StaticResources.FontAwesomeConstant.List,
+                                    FontFamily = FontFamily,
+            });
+            _buttonLayout.Children.Add(listLayout);
+            _buttonLayout.GestureRecognizers.Add(new TapGestureRecognizer
+            {
+                Command = new Command(ToggleActionBarMenu)
+            });
+
+            //preparing stack layout for button view 
+            _menuLayout = new StackLayout()
+            {
+                HeightRequest = 60,
+                TranslationY = 60,
+                         Opacity = 0.2,
+                         HorizontalOptions = LayoutOptions.FillAndExpand,
+                         Orientation = StackOrientation.Horizontal,
+            };
+
+            _underGrid = new Grid()
+            {
+                VerticalOptions = LayoutOptions.End,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+            };
+            _underGrid.Children.Add(_blueBarLayout);
+            _underGrid.Children.Add(_buttonLayout);
+            _underGrid.Children.Add(_menuLayout);
+
+            _mainGrid = new Grid();
+            _mainGrid.Children.Add(_underGrid);
+
+            this.Content = _mainGrid;
+        }
+
+        private void InitializeButton()
+        {
+            _isOpenMenu = false;
+
+
+            Task.Delay(600).ContinueWith(t =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    _buttonLayout.TranslationY = _blueBarLayout.Height;
+                    _menuLayout.TranslationY = _blueBarLayout.Height;
+                    _blueBarLayout.TranslationY = _blueBarLayout.Height;
+                    _buttonLayout.IsVisible = true;
+                    _buttonLayout.TranslationX = (Width / 2) - _buttonLayout.Height;
+
+                    AnimateButtonOut();
+                });
+            });
+        }
+
+        private void ToggleActionBarMenu()
+        {
+            if (!_isOpenMenu)
+            {
+                OpenMenu();
+
+                _isOpenMenu = true;
+            }
+            else
+            {
+                CloseMenu();
+
+                _isOpenMenu = false;
+            }
+        }
+
+        private void CloseMenu()
+        {
+            _menuLayout.TranslateTo(0, _menuLayout.Height, 20);
+            _menuLayout.FadeTo(0.2);
+
+            AnimateBlueBarOut().ContinueWith(t =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    _blueBarLayout.TranslationY = _blueBarLayout.Height;
+                    _buttonLayout.IsVisible = true;
+
+                    AnimateButtonOut();
+                });
+            });
+        }
+
+        private void OpenMenu()
+        {
+            AnimateButtonIn().ContinueWith(e =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    _blueBarLayout.TranslationY = 0;
+                    _buttonLayout.IsVisible = false;
+
+                    AnimateBlueBarIn().ContinueWith(t =>
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            _menuLayout.TranslateTo(0, 0);
+                            _menuLayout.FadeTo(0.75);
+                        });
+                    });
+                });
+            });
+        }
+
+        private Task AnimateButtonIn()
+        {
+            return _buttonLayout.TranslateTo(0, 0, 150);
+        }
+
+        private Task AnimateButtonOut()
+        {
+            var y = -30;
+            var x = (Width / 2) - _buttonLayout.Height;
+
+            return _buttonLayout.TranslateTo(x, y, 150);
+        }
+
+        private Task AnimateBlueBarIn()
+        {
+            var r = _blueBarLayout.Bounds;
+            _originalLeft = r.Left;
+            _originalWidth = r.Width;
+
+            r.Width = _menuLayout.Width + 5;
+            r.Left = r.Left - ((Width - _originalWidth) / 2);
+            return _blueBarLayout.LayoutTo(r, 150);
+        }
+
+        private Task AnimateBlueBarOut()
+        {
+            var r = _blueBarLayout.Bounds;
+            r.Width = _originalWidth;
+            r.Left = _originalLeft;
+            return _blueBarLayout.LayoutTo(r, 150);
+        }
+
+    }
+}

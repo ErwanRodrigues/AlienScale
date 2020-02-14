@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlienScale.Views.CustomViews.MenuSlideView"
+             xmlns:customControls="clr-namespace:AlienScale.Views.CustomControls"
+             xmlns:behaviors="clr-namespace:AlienScale.ViewModels.Behaviors">
+  <ContentView.Content>
+        <StackLayout>
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OutOfMenuTappedCommand}" />
+            </StackLayout.GestureRecognizers>
+            <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand"
+                     BackgroundColor="Transparent"
+                     Orientation="Horizontal">
+            </StackLayout>
+            <StackLayout WidthRequest="200"
+                         VerticalOptions="FillAndExpand"
+                         HorizontalOptions="End"
+                         BackgroundColor="DarkSlateGray">
+
+                <customControls:CustomListView x:Name="MenuListView"
+                                               ItemsSource="{Binding MenuItems}"
+                                               IsPullToRefreshEnabled="False"
+                                               SelectedItem="{Binding MenuItemSelected}">
+                    <customControls:CustomListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding ItemName}"
+                                      TextColor="NavajoWhite"/>
+                        </DataTemplate>
+                    </customControls:CustomListView.ItemTemplate>
+                    <customControls:CustomListView.Behaviors>
+                        <behaviors:ListViewSelectionBehavior Command="{Binding MenuItemSelectedCommand}"/>
+                    </customControls:CustomListView.Behaviors>
+                </customControls:CustomListView>
+                
+                <StackLayout VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OutOfMenuTappedCommand}" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>
+

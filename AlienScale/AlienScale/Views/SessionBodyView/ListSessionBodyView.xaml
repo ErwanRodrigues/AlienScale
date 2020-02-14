@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="AlienScale.Views.SessionBodyView.ListSessionBodyView"
+    xmlns:customViews="clr-namespace:AlienScale.Views.CustomViews"
+    IsVisible="{Binding ListSessionIsVisible}"            
+    VerticalOptions="FillAndExpand" 
+    HorizontalOptions="FillAndExpand"
+    x:Name="SessionView"
+    BackgroundColor="Transparent"
+    Margin="20,20,20,20"
+    Padding="0">
+    <ListView x:Name="FishesListView"
+              ItemsSource="{Binding HomeViewModel.Sessions}"
+              IsPullToRefreshEnabled="True"
+              RefreshCommand="{Binding RefreshSessionCommand}"
+              IsRefreshing="{Binding SessionIsRefreshing}"
+              SelectedItem="{Binding CurrentSession, Mode=TwoWay}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row ="0" Grid.Column="0" Text="{Binding Name}" FontSize="16"/>
+                        <Label Grid.Row ="0" Grid.Column="1" Text="{Binding TotalWeight, StringFormat='{}{0:F3} Kg'}" FontSize="16" TextColor="DarkBlue" FontAttributes="Bold" HorizontalOptions="EndAndExpand"/>
+                        <Label Grid.Row ="1" Grid.Column="0" Text="{Binding Starts}" />
+                        <Label Grid.Row ="1" Grid.Column="1" Text="{Binding Location.Name }"  HorizontalOptions="EndAndExpand" />
+                    </Grid>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="Delete"
+                                  Command="{Binding Path=BindingContext.DeleteSessionCommand, Source={x:Reference SessionView}}"
+                                  CommandParameter="{Binding .}"
+                                  IsDestructive="True" />
+                    </ViewCell.ContextActions>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</StackLayout>

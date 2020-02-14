@@ -1,0 +1,17 @@
+﻿<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:c="clr-namespace:AlienScale.Views.CustomViews"
+             x:Class="AlienScale.Views.MapBodyView"           
+             VerticalOptions="FillAndExpand" 
+             HorizontalOptions="FillAndExpand"
+             Padding="0"
+             BackgroundColor="Transparent"
+             x:Name="MapView">
+    <c:CustomMap Items="{Binding Path=BindingContext.Pins, Source={x:Reference MapView}}"
+                 MapSpan="{Binding Path=BindingContext.CurrentMapSpan, Source={x:Reference MapView}}" 
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand"
+                 IsShowingUser="True"
+                 Margin="0,0,0,0"/>
+</StackLayout>

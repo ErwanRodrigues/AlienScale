@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        x:Class="AlienScale.Views.SessionBodyView.SessionBodyView"
+        xmlns:converters="clr-namespace:AlienScale.ViewModels.Converters" 
+        xmlns:custom="clr-namespace:AlienScale.Views.CustomViews"
+        HorizontalOptions="FillAndExpand" 
+        VerticalOptions="FillAndExpand"
+        BackgroundColor="Transparent"
+        Margin="0,0,0,0"
+        Padding="0">
+    <custom:BodyView ItemsSource="{Binding SessionViewOptions}"
+                         HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"/>
+    <custom:RibbonView x:Name="ribbonViews"
+                        Margin="40,0,40,0"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="End"
+                        BackgroundColor="Transparent" 
+                        BarColor="White" 
+                        TextColor="White"
+                        ItemsSource="{Binding RibbonOptions}" 
+                        SelectedItemIndex="{Binding SelectedTab, Mode=TwoWay}" 
+                        ItemSelected="{Binding OptionSelectionChangedCommand}"/>
+</StackLayout>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlienScale.Views.FishBodyView.ListFishBodyView"
+             xmlns:converters="clr-namespace:AlienScale.ViewModels.Converters"
+             IsVisible="{Binding ListFishIsVisible}"
+             VerticalOptions="FillAndExpand" 
+             HorizontalOptions="FillAndExpand"
+             x:Name="ListFishView"
+             BackgroundColor="Transparent"
+             Margin="20,20,20,20"
+             Padding="0">
+    <StackLayout.Resources>
+        <ResourceDictionary>
+            <converters:DateTimeToStringConverter x:Key="TimeOffsetToStringConverter"/>
+        </ResourceDictionary>
+    </StackLayout.Resources>
+    <ListView ItemsSource="{Binding HomeViewModel.Fishes}"
+              IsPullToRefreshEnabled="True"
+              RefreshCommand="{Binding RefreshFishesCommand}"
+              IsRefreshing="{Binding FishIsRefreshing}"
+              SelectedItem="{Binding CurrentFish, Mode=TwoWay}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <ViewCell.ContextActions>
+                        <MenuItem Text="Delete"
+                                  Command="{Binding Path=BindingContext.DeleteFishCommand, Source={x:Reference ListFishView}}"
+                                  CommandParameter="{Binding Path=BindingContext.CurrentFish, Source={x:Reference ListFishView}}"
+                                  IsDestructive="True"/>
+                    </ViewCell.ContextActions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0"  
+                               Text="{Binding FishType.TypeName}"
+                               FontAttributes="Bold"/>
+                        <Label Grid.Row="0" Grid.Column="1"  
+                               Text="{Binding Weight, StringFormat='{}{0:F3} Kg'}" 
+                               FontAttributes="Bold"
+                               HorizontalOptions="EndAndExpand"
+                               Margin="0,0,20,0"/>
+                        <Label Grid.Row="1" Grid.Column="0"   
+                               TextColor="WhiteSmoke"
+                               Text="{Binding CatchedDateTime, Converter={StaticResource TimeOffsetToStringConverter} }"/>
+                        <Label Grid.Row="1" Grid.Column="1"   
+                               TextColor="WhiteSmoke"
+                               Text="{Binding Bait}"
+                               HorizontalOptions="EndAndExpand"
+                               Margin="0,0,20,0"/>
+                    </Grid>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</StackLayout> 

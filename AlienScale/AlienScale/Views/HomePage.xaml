@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        x:Class="AlienScale.Views.HomePage" 
+        Title="{Binding Title}" 
+        BackgroundColor="DodgerBlue"
+        xmlns:customViews="clr-namespace:AlienScale.Views.CustomViews"
+        xmlns:customToolbar="clr-namespace:AlienScale.Views.Toolbar"
+        xmlns:markupExtensions="clr-namespace:AlienScale.MarkupExtensions;assembly=AlienScale"
+        xmlns:converters="clr-namespace:AlienScale.ViewModels.Converters"
+        xmlns:views="clr-namespace:AlienScale.Views"
+        x:Name="HomePageView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ToolbarBoundsConverter x:Key="ToolbarBoundsConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Menu" Icon="menu.png" Command="{Binding OpenSlideMenu}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <customViews:HomeView LayoutCompressedLevel="{Binding CompressLayoutLevel}"
+                                  HorizontalOptions="FillAndExpand"
+                                  AbsoluteLayout.LayoutFlags="All"
+                                  AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                  Command="{Binding DisplayAddPopupCommand}"/>
+            <customToolbar:CustomToolbar ItemSource="{Binding RunningSession}"
+                                         AddFishCommand="{Binding ToolbarAddFishCommand}"
+                                         ViewSessionCommand="{Binding ToolbarViewSessionCommand}"
+                                         StopSessionCommand="{Binding ToolbarStopSessionCommand}"
+                                         IsToolbarVisible="{Binding RunningSessionIsVisible}"
+                                         IsMenuOpen="{Binding IsToolbarMenuOpened}"
+                                         AbsoluteLayout.LayoutFlags="All"
+                                         AbsoluteLayout.LayoutBounds="0.0,1.0,1,0.15"/>
+            <customViews:MenuSlideView x:Name="MenuSlideView" 
+                                       DefaultWidth="{Binding MenuDefaultWidth}" 
+                                       IsSlideOpen="{Binding IsMenuSlide}"
+                                       AbsoluteLayout.LayoutFlags="All"
+                                       AbsoluteLayout.LayoutBounds="0,0,1,1"/>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

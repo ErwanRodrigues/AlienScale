@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+        x:Class="AlienScale.Views.HomePage" 
+        Title="{Binding Title}" 
+        BackgroundColor="DodgerBlue"
+        xmlns:customViews="clr-namespace:AlienScale.Views.CustomViews"
+        xmlns:customControls="clr-namespace:AlienScale.Views.CustomControls"
+        xmlns:markupExtensions="clr-namespace:AlienScale.MarkupExtensions;assembly=AlienScale"
+        xmlns:views="clr-namespace:AlienScale.Views"
+        x:Name="HomeView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DisplayDataValueStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Times New Roman" />
+                <Setter Property="TextColor" Value="#1B3B5F" />
+                <Setter Property="FontSize" Value="10" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Icon="add.png" Command="{Binding AddCommand}"/>
+        <ToolbarItem Text="Save" Icon="save.png" Command="{Binding SaveCommand}" CommandParameter="{Binding .}"/>
+        <ToolbarItem Text="Menu" Icon="menu.png"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" VerticalOptions="FillAndExpand">
+            <Grid HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" VerticalOptions="FillAndExpand" RowSpacing="0" Padding="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <customViews:RibbonView x:Name="ribbonViews" 
+                                      Padding="20,0,20,0" 
+                                      Grid.Row ="1" 
+                                      HorizontalOptions="FillAndExpand" 
+                                      BackgroundColor="Transparent" BarColor="White" 
+                                      TextColor="White" 
+                                      Style="{StaticResource DisplayDataValueStyle}" 
+                                      ItemsSource="{Binding RibbonOptions}" 
+                                      SelectedItemIndex="{Binding SelectedTab, Mode=TwoWay}" 
+                                      ItemSelected="{Binding OptionSelectionChangedCommand}"/>
+                <RelativeLayout IsVisible="{Binding FishIsVisible}"
+                         Padding="0"
+                         Grid.Row="2"
+                         Margin="0,0,0,0"
+                         HorizontalOptions="FillAndExpand">
+                    <customViews:BodyView ItemsSource="{Binding FishViewOptions}" 
+                                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+                                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
+                </RelativeLayout>
+                <RelativeLayout IsVisible="{Binding SessionIsVisible}"
+                         Padding="0"
+                         Grid.Row="2"
+                         Margin="0,0,0,0"
+                         HorizontalOptions="FillAndExpand">
+                    <customViews:BodyView ItemsSource="{Binding SessionViewOptions}"
+                                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+                                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
+                </RelativeLayout>
+                <RelativeLayout IsVisible="{Binding LocationIsVisible}"
+                         Padding="0"
+                         Grid.Row="2"
+                         Margin="0,0,0,0"
+                          VerticalOptions="FillAndExpand"
+                         HorizontalOptions="FillAndExpand">
+                    <customViews:BodyView ItemsSource="{Binding LocationViewOptions}"
+                                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+                                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
+                </RelativeLayout>
+                <RelativeLayout IsVisible="{Binding MapIsVisible}"
+                         Padding="0"
+                         Grid.Row="2"
+                         VerticalOptions="FillAndExpand"
+                         Margin="0,0,0,0"
+                         HorizontalOptions="FillAndExpand">
+                    <customViews:BodyView ItemsSource="{Binding MapViewOptions}"
+                                      RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height}"
+                                      RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width}"/>
+                </RelativeLayout>
+                <customControls:ImageButton Source="{markupExtensions:PlatformImage SourceImage='IconFAB'}"
+                                        Command="{Binding AddCommand}"
+                                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                                        AbsoluteLayout.LayoutBounds="1.0,1.0,-1,-1"
+                                        Margin="10" />
+            </Grid>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

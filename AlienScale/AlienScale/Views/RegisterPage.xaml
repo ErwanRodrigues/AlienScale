@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customControls="clr-namespace:AlienScale.Views.CustomControls"
+             xmlns:behaviors="clr-namespace:AlienScale.ViewModels.Behaviors"
+             x:Class="AlienScale.Views.RegisterPage">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="Start"
+                Margin="20">
+            <StackLayout x:Name="userStackLayout"
+                     CompressedLayout.IsHeadless="True">
+                <Entry x:Name="userNameEntry"
+                    Placeholder="Name" 
+                    TextColor="Black"
+                    Text="{Binding Name, Mode=TwoWay}"
+                    Keyboard="Email"/>
+                <Entry x:Name="emailEntry"
+                    Placeholder="Email address" 
+                    TextColor="Black"
+                    Text="{Binding Email, Mode=TwoWay}"
+                    Keyboard="Email"/>
+                <Entry x:Name="passwordEntry"
+                    Placeholder="Password"  
+                    Text="{Binding Password, Mode=TwoWay}"
+                    TextColor="Black"
+                    IsPassword="True"/>
+                <Entry x:Name="confirmPasswordEntry"
+                    Placeholder="Password"
+                    Text="{Binding ConfirmPassword, Mode=TwoWay}"
+                    TextColor="Black"
+                    IsPassword="True"/>
+                <Entry x:Name="phoneNumber"
+                    Placeholder="Telephone number"  
+                    Text="{Binding TelNumber, Mode=TwoWay}"
+                    TextColor="Black"/>
+                <Entry x:Name="text1Entry"
+                    Placeholder="Address text 1" 
+                    TextColor="Black"
+                    Text="{Binding Text1, Mode=TwoWay}"/>
+                <Entry x:Name="text2Entry"
+                    Placeholder="Address text 2" 
+                    TextColor="Black"
+                    Text="{Binding Text2, Mode=TwoWay}"/>
+                <customControls:CustomZipCodeEntry x:Name="zipCodeEntry"
+                    Placeholder="Zipcode"
+                    TextColor="Black"
+                    Text="{Binding ZipCode, Mode=TwoWay}">
+                    <customControls:CustomZipCodeEntry.Behaviors>
+                        <behaviors:EntryCompletedBehavior Command="{Binding ZipcodeCompletedCommand}"/>
+                    </customControls:CustomZipCodeEntry.Behaviors>
+                </customControls:CustomZipCodeEntry>
+                <Picker x:Name="cityPicker" ItemsSource="{Binding Cities}" ItemDisplayBinding="{Binding nom}" Title="Select your city"/>
+                <Button x:Name="registerButton" 
+                Margin="0,30,0,0"
+                Text="Register"
+                Command="{Binding RegisterCommand}"
+                CommandParameter="{Binding User}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

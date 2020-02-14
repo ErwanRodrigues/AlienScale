@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+            xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+            x:Class="AlienScale.Views.LocationBodyView.StatLocationBodyView"
+            IsVisible="{Binding StatLocationIsVisible}"
+            VerticalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand"
+            BackgroundColor="Transparent"
+            Margin="20,0,20,0"
+            Padding="0">
+
+        <StackLayout>
+            <Label Text="Stat location not implemented yet"/>
+        </StackLayout>
+
+</StackLayout>

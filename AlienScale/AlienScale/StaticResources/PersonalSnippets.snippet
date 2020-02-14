@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>bindableprop</Title>
+    <Author>Erwan</Author>
+    <Shortcut>snip</Shortcut>
+    <Description>description</Description>
+    <SnippetTypes>
+      <SnippetType>SurroundsWith</SnippetType>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>bindableProperty</ID>
+        <Default>bindableProperty</Default>
+      </Literal>
+      <Literal>
+        <ID>bindable</ID>
+        <Default>bindable</Default>
+      </Literal>
+      <Object>
+        <ID>declaringType</ID>
+        <Type>object</Type>
+        <Default>declaringType</Default>
+      </Object>      
+      <Object>
+        <ID>returnType</ID>
+        <Type>object</Type>
+        <Default>returnType</Default>
+      </Object>
+    </Declarations>
+    <Code Language="Csharp">
+      <![CDATA[public static readonly BindableProperty $bindableProperty$ = BindableProperty.Create(
+                                                                            propertyName: $bindable$,
+                                                                            returnType: typeof($returnType$),
+                                                                            declaringType: typeof($declaringType$),
+                                                                            defaultValue: null);
+    public $returnType$ $bindable$
+    {
+        get
+        {
+            return ($returnType$)GetValue($bindableProperty$);
+        }
+        set
+        {
+            SetValue($bindableProperty$, value);
+        }
+    }]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>
